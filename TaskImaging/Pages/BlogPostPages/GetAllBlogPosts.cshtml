@@ -1,0 +1,72 @@
+﻿@page
+@model TaskImaging.Pages.BlogPostPages.GetAllBlogPostsModel
+@{
+}
+
+<a asp-page="/BlogPostPages/Create" class="btn btn-primary">Create New</a>
+<br />
+<br />
+<h3>Feeds</h3>
+<div class="text-center">
+
+</div>
+@foreach (var item in Model.BlogPosts)
+{
+<div class="card" style="width: 20rem;">
+    <div class="card-body">
+        <div class="d-flex  justify-content-between">
+            <h5 class="card-title">@item.Title</h5>
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    ...
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <a asp-page="/BlogPostPages/Edit" asp-route-id="@item.BlogPostId" class="dropdown-item">Edit</a>
+                    <a asp-page-handler="Delete" asp-route-id="@item.BlogPostId" class="dropdown-item" onclick="return true;">Delete</a>
+                </div>
+            </div>
+        </div>
+        <p class="card-text">@item.Body</p>
+
+    </div>
+
+    @foreach (var com in item.Comments)
+    {
+<div class="card mb-1 mr-1" style="width: 19rem;">
+    <h6>@com.Name</h6>
+    <p>@com.CommentBody</p>
+    <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu3">
+            <a asp-page="/CommentPages/Edit" asp-route-id="@com.CommentId" class="dropdown-item">Edit</a>
+            <a asp-page-handler="DeleteComment" asp-route-id="@com.CommentId" class="dropdown-item" onclick="return true;">Delete</a>
+        </div>
+    </div>
+</div>
+    }
+    <br />
+    <div class="card mb-1 mr-1" style="width: 19rem;">
+        
+        <form method="post" class="ml-4" style="width: 15rem;">
+            <div class="row">
+                <label asp-for="@Model.NewComment.Name" class="form-label"></label>
+                <input name="Name" value="" class="form-control" >
+            </div>
+            <div class="row">
+                <label asp-for="@Model.NewComment.CommentBody" class="form-label"></label>
+                <input name="CommentBody" value="" class="form-control" />
+            </div>
+            <input name="BlogPostId" value="@item.BlogPostId" type="hidden"/>
+            <div class="row mb-1">
+                <input type="submit" value="comment"/>
+            </div>
+        </form>
+
+    </div>    
+</div>
+<br />
+
+}
+
+
